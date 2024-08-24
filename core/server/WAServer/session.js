@@ -87,7 +87,6 @@ class SessionConnection extends SessionsDatabase {
             auth: state,
             logger: pino({ level: "silent" }),
             browser: ["LSender", "Chrome", "3.0"],
-            version
         });
 
         try {
