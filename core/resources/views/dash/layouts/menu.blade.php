@@ -4,7 +4,7 @@
             <span class="app-brand-logo demo" style="height: unset">
                 <img style="height: 30px" src="{!! asset('assets/img/logo.png') !!}" alt="lsender">
             </span>
-            <span class="app-brand-text demo menu-text fw-bold">WALazy</span>
+            <span class="app-brand-text demo menu-text fw-bold">LSender</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -68,12 +68,12 @@
                 <div data-i18n="Rest Api">Rest Api</div>
             </a>
         </li>
-        <li class="menu-item {{ Route::is('plugins*') ? 'active' : '' }}">
+        {{-- <li class="menu-item {{ Route::is('plugins*') ? 'active' : '' }}">
             <a href="{!! route('plugins') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-3d-cube-sphere" style="margin-bottom: 2px;"></i>
                 <div data-i18n="Plugins & Integration">Plugins & Integration</div>
             </a>
-        </li>
+        </li> --}}
         <li class="menu-item {{ Route::is('history*') ? 'active' : '' }}">
             <a href="{!! route('history') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-history" style="margin-bottom: 2px;"></i>
@@ -109,13 +109,13 @@
                 </ul>
             </li>
         @endif
-        <li class="menu-item">
+        {{-- <li class="menu-item">
             <a href="https://velixs.com/item/walazy-whatsap-gateway-md" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-code" style="margin-bottom: 2px;"></i>
                 <div data-i18n="Version 3.0.0">Version 5.x</div>
                 <div class="badge bg-label-success rounded-pill ms-auto">Current</div>
             </a>
-        </li>
+        </li> --}}
         <li class="menu-item">
             <a href="{!! route('logout') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-logout" style="margin-bottom: 2px;"></i>
