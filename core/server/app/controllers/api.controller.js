@@ -13,13 +13,27 @@ class ApiController extends SessionsDatabase {
         res.json({ message: 'Server Running!' });
     }
 
+    async validateNumber(number) {
+        const cleanedNumber = number.replace(/[^0-9]/g, '');
+        if (cleanedNumber.startsWith('+')) {
+            return `62${cleanedNumber.slice(1)}`;
+        } else if (cleanedNumber.startsWith('0')) {
+            return `62${cleanedNumber.slice(1)}`;
+        } else {
+            return cleanedNumber;
+        }
+    }
+
+
+
     async sendMessage(req, res) {
         const { receiver, data } = req.body;
+        const validNumber = await this.validateNumber(receiver);
         const asolo = await this.asolo(req, res);
         if (!asolo.status) return res.status(400).json(asolo);
         try {
-            let client = new Client(asolo.session, receiver);
-            if (!await client.isWhatsapp(receiver)) return res.status(400).json({ status: false, message: 'Invalid WhatsApp number.' });
+            let client = new Client(asolo.session, validNumber);
+            if (!await client.isWhatsapp(validNumber)) return res.status(400).json({ status: false, message: 'Invalid WhatsApp number.' });
             await client.sendText(data.message).then(() => {
                 return res.status(200).json({ status: true, message: 'Message sent.' });
             }).catch(() => {

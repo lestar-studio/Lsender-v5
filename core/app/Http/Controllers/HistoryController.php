@@ -14,7 +14,7 @@ class HistoryController extends Controller
             if (!session()->get('main_device')) return response()->json(['message' => 'No main device selected'], 400);
             $auth = auth()->user();
             $table = History::where([
-                'user_id' => $auth->id,
+                // 'user_id' => $auth->id,
                 'session_id' => session()->get('main_device'),
             ])->orderBy('created_at', 'desc')->get();
 
@@ -59,7 +59,7 @@ class HistoryController extends Controller
         if (!session()->get('main_device')) return Lyn::view('nodevice');
         $row = History::where([
             'id' => $id,
-            'user_id' => auth()->user()->id,
+            // 'user_id' => auth()->user()->id,
             'session_id' => session()->get('main_device'),
         ])->first();
 
@@ -76,7 +76,7 @@ class HistoryController extends Controller
         if (!session()->get('main_device')) return response()->json(['message' => 'No main device selected'], 400);
 
         History::whereIn('id', $request->id)->where([
-            'user_id' => auth()->id(),
+            // 'user_id' => auth()->id(),
             'session_id' => session()->get('main_device'),
         ])->delete();
 

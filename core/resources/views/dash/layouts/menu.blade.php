@@ -2,7 +2,7 @@
     <div class="app-brand demo">
         <a href="{!! route('dashboard') !!}" class="app-brand-link">
             <span class="app-brand-logo demo" style="height: unset">
-                <img style="height: 30px" src="{!! asset('assets/img/logo.png') !!}" alt="walix">
+                <img style="height: 30px" src="{!! asset('assets/img/logo.png') !!}" alt="lsender">
             </span>
             <span class="app-brand-text demo menu-text fw-bold">WALazy</span>
         </a>

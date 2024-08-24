@@ -25,10 +25,24 @@ class CampaignsController extends Controller
         if ($request->ajax() || $request->isMethod('post')) {
             if (!session()->get('main_device')) return response()->json(['message' => 'No main device selected'], 400);
             $auth = auth()->user();
-            $table = Campaigns::where([
-                'user_id' => $auth->id,
-                'session_id' => session()->get('main_device'),
-            ])->orderBy('created_at', 'desc')->get();
+            // update bulk
+            $campaigns = Campaigns::with('bulk')
+                ->where([
+                    'user_id' => $auth->id,
+                    'session_id' => session()->get('main_device'),
+                ])
+                ->where('status', '!=', 'completed')
+                ->get();
+            foreach ($campaigns as $key => $value) {
+                $this->update_bulks($value);
+            }
+
+            // get campaigns
+            $table = Campaigns::with('bulk')
+                ->where([
+                    'user_id' => $auth->id,
+                    'session_id' => session()->get('main_device'),
+                ])->orderBy('created_at', 'desc')->get();
 
             return datatables()->of($table)
                 ->addColumn('responsive_id', function () {
@@ -166,7 +180,7 @@ class CampaignsController extends Controller
                     'session_id' => session()->get('main_device'),
                     'campaign_id' => $campaign->id,
                     'receiver_name' => $row->name,
-                    'receiver' => $row->number,
+                    'receiver' => $this->validate_number($row->number),
                     'message_type' => $request->message_type,
                     'message' => $campaign->message,
                     'status' => 'pending',
@@ -246,5 +260,32 @@ class CampaignsController extends Controller
         }
 
         return response()->json(['message' => 'Campaign deleted'], 200);
+    }
+
+    public function validate_number($number)
+    {
+        $cleaned_number = preg_replace('/[^0-9]/', '', $number);
+
+        if (substr($cleaned_number, 0, 1) === '+') {
+            return '62' . substr($cleaned_number, 1);
+        } elseif (substr($cleaned_number, 0, 1) === '0') {
+            return '62' . substr($cleaned_number, 1);
+        } else {
+            return $cleaned_number;
+        }
+    }
+
+    public function update_bulks($data)
+    {
+        $count_sent = collect($data->bulk)->where('status', '!=', 'sent')->count();
+
+        $campaign = Campaigns::find($data->id);
+        if ($count_sent > 0) {
+            $campaign->status = 'processing';
+        } else {
+            $campaign->status = 'completed';
+        }
+
+        $campaign->save();
     }
 }

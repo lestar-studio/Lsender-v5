@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->nullable();
             $table->uuid('session_id');
             $table->string('receiver');
             $table->string('message_type');

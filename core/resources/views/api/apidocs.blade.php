@@ -9,14 +9,14 @@
         <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-3">
             <div class="d-flex justify-content-between flex-column mb-2 mb-md-0">
                 <ul class="nav nav-align-left nav-pills flex-column">
-                    <li class="nav-item">
-                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-webhook">
+                    {{-- <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-webhook">
                             <i class="ti ti-webhook me-1 ti-sm"></i>
                             <span class="align-middle fw-semibold">Example WebHook</span>
                         </button>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-sendtext">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-sendtext">
                             <i class="ti ti-brand-whatsapp me-1 ti-sm"></i>
                             <span class="align-middle fw-semibold">Api Send Text</span>
                         </button>
@@ -27,7 +27,7 @@
                             <span class="align-middle fw-semibold">Api Send Media</span>
                         </button>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <button class="nav-link " data-bs-toggle="tab" data-bs-target="#tab-sendbutton">
                             <i class="ti ti-brand-whatsapp me-1 ti-sm"></i>
                             <span class="align-middle fw-semibold">Api Send Button</span>
@@ -38,7 +38,7 @@
                             <i class="ti ti-brand-whatsapp me-1 ti-sm"></i>
                             <span class="align-middle fw-semibold">Api Send List Button</span>
                         </button>
-                    </li>
+                    </li> --}}
                 </ul>
                 <div class="d-none d-md-block">
                     <div class="mt-4">
@@ -52,7 +52,7 @@
         <!-- FAQ's -->
         <div class="col-lg-9 col-md-8 col-12">
             <div class="tab-content py-0">
-                <div class="tab-pane fade show active" id="tab-webhook" role="tabpanel">
+                <div class="tab-pane fade" id="tab-webhook" role="tabpanel">
                     <div class="d-flex mb-3 gap-3">
                         <div>
                             <span class="badge bg-label-primary rounded-2 p-2">
@@ -88,7 +88,7 @@
 
                     </div>
                 </div>
-                <div class="tab-pane fade " id="tab-sendtext" role="tabpanel">
+                <div class="tab-pane fade show active " id="tab-sendtext" role="tabpanel">
                     @include('api.sendtext')
                 </div>
                 <div class="tab-pane fade" id="tab-sendmedia" role="tabpanel">

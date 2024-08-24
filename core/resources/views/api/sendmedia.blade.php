@@ -15,7 +15,7 @@
     <div class="card">
         <div class="card-body">
             <p>SendMedia is an API that allows you to send media messages to WhatsApp numbers.</p>
-            <span class="text-info">Endpoint :</span> {!! config('app.base_node') !!}/api/send-media <br>
+            <span class="text-info">Endpoint :</span> {!! config('app.url') !!}/api/single/message <br>
             <span class="text-info">Method :</span> POST <br>
             <span class="text-info">media_type :</span> image, video, audio, file <br>
             <span class="text-info">Download Example PHP :</span> <a class="fw-bold" target="_blank" href="https://github.com/ilsyaa/example-lazygateway">Download</a><br>
@@ -30,10 +30,12 @@
                 <div id="sendmedia-array" class="accordion-collapse collapse show">
                     <div class="accordion-body">
                         <pre style="border-radius: 6px;"><code class="hljs language-php">{
-  "api_key" => "{!! $main_device->api_key !!}",
-  "receiver" => "628xxxxxxxx",
+  "device_key" : "{!! $main_device->id !!}",
+  "api_key" : "{!! $main_device->api_key !!}",
+  "receiver" : "628xxxxxxxx",
+  "message_type" : "media",
   "data": {
-    "url": "https://i.ibb.co/QbmsBqs/code.png",
+    "url": "https://drollfeed.net/wp-content/uploads/2016/09/angry-cats-03.jpg",
     "media_type": "image",
     "caption": "Hello World"
   }
@@ -52,14 +54,16 @@
                 <div id="sendmedia-curl" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <pre style="border-radius: 6px;"><code class="hljs language-php">curl -X POST \
-'{!! config('app.base_node') !!}/api/send-media' \
+'{!! config('app.url') !!}/api/single/message' \
 --header 'Accept: */*' \
 --header 'Content-Type: application/json' \
 --data-raw '{
+  "device_key": "{!! $main_device->id !!}",
   "api_key": "{!! $main_device->api_key !!}",
   "receiver": "628xxxxxxxx",
+  "message_type": "media",
   "data": {
-    "url": "https://i.ibb.co/QbmsBqs/code.png",
+    "url": "https://drollfeed.net/wp-content/uploads/2016/09/angry-cats-03.jpg",
     "media_type": "image",
     "caption": "Hello World"
   }
@@ -78,10 +82,12 @@
                 <div id="sendmedia-curl-php" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <pre style="border-radius: 6px;"><code class="hljs language-php">$body = array(
+  "device_key" => "{!! $main_device->id !!}",
   "api_key" => "{!! $main_device->api_key !!}",
   "receiver" => "628xxxxxxxx",
+  "message_type" => "media",
   "data": array(
-    "url" => "https://i.ibb.co/QbmsBqs/code.png",
+    "url" => "https://drollfeed.net/wp-content/uploads/2016/09/angry-cats-03.jpg",
     "media_type" => "image",
     "caption" => "Hello World"
   )
@@ -89,7 +95,7 @@
 
 $curl = curl_init();
 curl_setopt_array($curl, [
-  CURLOPT_URL => "{!! config('app.base_node') !!}/api/send-media",
+  CURLOPT_URL => "{!! config('app.url') !!}/api/single/message",
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => "",
   CURLOPT_MAXREDIRS => 10,

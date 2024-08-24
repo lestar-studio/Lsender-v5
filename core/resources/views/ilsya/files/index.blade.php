@@ -44,7 +44,7 @@
                     <ul class="navbar-nav ms-lg-auto">
                         <li class="nav-item">
                             <label class="btn btn-primary">
-                                <i class="tf-icons navbar-icon ti ti-cloud-upload ti-xs me-1" style="margin-top: -2px;"></i> Uplaod Files
+                                <i class="tf-icons navbar-icon ti ti-cloud-upload ti-xs me-1" style="margin-top: -2px;"></i> Upload Files
                                 <form id="form-upload-media-ilsya" enctype="multipart/form-data">
                                     <input type="hidden" value="{{ $subfolder }}" name="subfolder">
                                     <input type="file" name="file" id="upload_ilsya_files" style="display: none;">

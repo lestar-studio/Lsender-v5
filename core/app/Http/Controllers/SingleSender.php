@@ -210,14 +210,90 @@ class SingleSender extends Controller
             }
         }
     }
+    public function apiStore(Request $request)
+    {
+        $pars = array(
+            "api_key" => $request->api_key,
+            "receiver" => $this->validate_receiver("$request->receiver"),
+        );
 
+        if ($request->message_type == 'text') {
+            $request->validate([
+                'data.message' => 'required',
+            ]);
+            $pars['data'] = array(
+                'message' => $request->data['message'],
+            );
+            try {
+                $response = Http::post($this->url . '/api/send-message', $pars);
+                $response = $response->json();
+                if ($response['status'] == 'success') {
+                    History::apiRecord($request, [
+                        'from' => 'api',
+                        'status' => 'sent'
+                    ]);
+                    return response()->json(['message' => 'Message sent.']);
+                } else {
+                    History::apiRecord($request, [
+                        'from' => 'api',
+                        'status' => 'failed'
+                    ]);
+                    return response()->json(['message' => ($response['message'] ?? 'Failed to send message.')], 500);
+                }
+            } catch (\Exception $e) {
+                History::apiRecord($request, [
+                    'from' => 'api',
+                    'status' => 'failed'
+                ]);
+                return response()->json(['message' => $e->getMessage()], 500);
+            }
+        } else if ($request->message_type == 'media') {
+            $request->validate([
+                'data.media_type' => 'required',
+                'data.media' => 'required',
+            ]);
+            $pars['waiting'] = 3000;
+            $pars['data'] = array(
+                'url' => $request->data['media'],
+                'media_type' => $request->data['media_type'],
+                'caption' => $request->data['caption'] ?? '',
+            );
+            try {
+                $response = Http::post($this->url . '/api/send-media', $pars);
+                $response = $response->json();
+                if ($response['status'] == 'success') {
+                    History::apiRecord($request, [
+                        'from' => 'api',
+                        'status' => 'sent'
+                    ]);
+                    return response()->json(['message' => ($response['message'] ?? 'Media sent.')]);
+                } else {
+                    History::apiRecord($request, [
+                        'from' => 'api',
+                        'status' => 'failed'
+                    ]);
+                    return response()->json(['message' => ($response['message'] ?? 'Failed to send message.')], 500);
+                }
+            } catch (\Exception $e) {
+                History::apiRecord($request, [
+                    'from' => 'api',
+                    'status' => 'failed'
+                ]);
+                return response()->json(['message' => $e->getMessage()], 500);
+            }
+        }
+    }
 
     public function validate_receiver($number)
     {
-        if (!strpos($number, '@g.us')) {
-            return trim(preg_replace('/[^0-9]/', '', $number));
+        $cleaned_number = preg_replace('/[^0-9]/', '', $number);
+
+        if (substr($cleaned_number, 0, 1) === '+') {
+            return '62' . substr($cleaned_number, 1);
+        } elseif (substr($cleaned_number, 0, 1) === '0') {
+            return '62' . substr($cleaned_number, 1);
         } else {
-            return trim($number);
+            return $cleaned_number;
         }
     }
 }

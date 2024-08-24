@@ -15,7 +15,7 @@
     <div class="card">
         <div class="card-body">
             <p>SendText is an API that allows you to send text messages to WhatsApp numbers.</p>
-            <span class="text-info">Endpoint :</span> {!! config('app.base_node') !!}/api/send-message <br>
+            <span class="text-info">Endpoint :</span> {!! config('app.url') !!}/api/single/message <br>
             <span class="text-info">Method :</span> POST <br>
             <span class="text-info">Download Example PHP :</span> <a class="fw-bold" target="_blank" href="https://github.com/ilsyaa/example-lazygateway">Download</a><br>
 
@@ -29,8 +29,10 @@
                 <div id="sendtext-array" class="accordion-collapse collapse show">
                     <div class="accordion-body">
                         <pre style="border-radius: 6px;"><code class="hljs language-php">{
-  "api_key" => "{!! $main_device->api_key !!}",
-  "receiver" => "628xxxxxxxx",
+  "device_key" : "{!! $main_device->id !!}",
+  "api_key" : "{!! $main_device->api_key !!}",
+  "receiver" : "628xxxxxxxx",
+  "message_type" : "text",
   "data":{
     "message": "Hello World"
   }
@@ -49,12 +51,14 @@
                 <div id="sendtext-curl" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <pre style="border-radius: 6px;"><code class="hljs language-php">curl -X POST \
-'{!! config('app.base_node') !!}/api/send-message' \
+'{!! config('app.url') !!}/api/single/message' \
 --header 'Accept: */*' \
 --header 'Content-Type: application/json' \
 --data-raw '{
+  "device_key": "{!! $main_device->id !!}",
   "api_key": "{!! $main_device->api_key !!}",
   "receiver": "628xxxxxxxx",
+  "message_type": "text",
   "data":{
     "message": "Hello World"
   }
@@ -73,14 +77,16 @@
                 <div id="sendtext-curl-php" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <pre style="border-radius: 6px;"><code class="hljs language-php">$body = array(
+  "device_key" => "{!! $main_device->id !!}",
   "api_key" => "{!! $main_device->api_key !!}",
   "receiver" => "628xxxxxxxx",
+  "message_type" => "text",
   "data" => array("message" => "Hello World")
 );
 
 $curl = curl_init();
 curl_setopt_array($curl, [
-  CURLOPT_URL => "{!! config('app.base_node') !!}/api/send-message",
+  CURLOPT_URL => "{!! config('app.url') !!}/api/single/message",
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => "",
   CURLOPT_MAXREDIRS => 10,
