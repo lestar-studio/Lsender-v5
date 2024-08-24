@@ -18,7 +18,7 @@
             <span class="text-info">Endpoint :</span> {!! config('app.url') !!}/api/single/message <br>
             <span class="text-info">Method :</span> POST <br>
             <span class="text-info">media_type :</span> image, video, audio, file <br>
-            <span class="text-info">Download Example PHP :</span> <a class="fw-bold" target="_blank" href="https://github.com/ilsyaa/example-lazygateway">Download</a><br>
+            {{-- <span class="text-info">Download Example PHP :</span> <a class="fw-bold" target="_blank" href="https://github.com/ilsyaa/example-lazygateway">Download</a><br> --}}
 
             <div class="card accordion-item mt-3">
                 <h2 class="accordion-header">
