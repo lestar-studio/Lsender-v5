@@ -7,6 +7,7 @@ let sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
     port: DB_PORT,
     dialect: DB_CONNECTION,
     logging: false,
+    dialect: 'mysql',
 });
 
 function connectDatabase() {
