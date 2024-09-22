@@ -10,14 +10,14 @@ const url = require('url');
 
 const server = new app();
 
-const { hostname, port } = url.parse(process.env.BASE_NODE);
+const { hostname, port } = url.parse(process.env.BASE_NODE_URL);
 
 const serverHttp = server.app.listen(port || 5570, hostname, () => {
-    logger("info", `[EXPRESS] App Listening at ${process.env.BASE_NODE}`);
+    logger("info", `[EXPRESS] App Listening at ${process.env.BASE_NODE_URL}`);
 });
 
 server.app.get("/", (req, res) => {
-    res.redirect(process.env.BASE_NODE + '/app');
+    res.redirect(process.env.BASE_NODE_URL + '/app');
 });
 
 const io = new Server(serverHttp)
