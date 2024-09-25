@@ -99,15 +99,15 @@
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a class="dropdown-item" href="https://velixs.com">
                             <i class="ti ti-lifebuoy me-2 ti-sm"></i>
                             <span class="align-middle">Help</span>
                         </a>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <div class="dropdown-divider"></div>
-                    </li>
+                    </li> -->
                     <li>
                         <a class="dropdown-item" href="{!! route('logout') !!}">
                             <i class="ti ti-logout me-2 ti-sm"></i>

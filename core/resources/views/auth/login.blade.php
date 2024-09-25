@@ -6,9 +6,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>LSender</title>
+    <title>Wibble Chat</title>
 
-    <meta name="description" content="LSender" />
+    <meta name="description" content="Wibble" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{!! asset('assets') !!}/img/favicon.png" />
@@ -56,12 +56,12 @@
                         <div class="app-brand justify-content-center mb-4 mt-2">
                             <a href="#" class="app-brand-link gap-2">
                                 <span class="app-brand-logo demo" style="height: unset;">
-                                    <img style="height: 30px" src="{!! asset('assets/img/logo.png') !!}" alt="lsender">
+                                    <img style="height: 30px" src="{!! asset('assets/img/logo.png') !!}" alt="Wibble">
                                 </span>
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1 pt-2">Welcome to LSender! 👋</h4>
+                        <h4 class="mb-1 pt-2">Welcome to Wibble Chat! 👋</h4>
                         <p class="mb-4">Please sign-in to your account!</p>
 
                         <form class="mb-3" action="{!! route('login') !!}" method="POST">

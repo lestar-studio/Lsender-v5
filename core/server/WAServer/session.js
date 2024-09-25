@@ -86,7 +86,7 @@ class SessionConnection extends SessionsDatabase {
             printQRInTerminal: false,
             auth: state,
             logger: pino({ level: "silent" }),
-            browser: ["LSender", "Chrome", "3.0"],
+            browser: ["Wibble", "Chrome", "3.0"],
         });
 
         try {

@@ -34,7 +34,7 @@
   "data": {
     "title": "Title Message",
     "message": "Message Content",
-    "footer": "LSender",
+    "footer": "Wibble",
     "buttonText": "Click Me",
     "sections": [
         {
@@ -86,7 +86,7 @@
   "data": {
     "title": "Title Message",
     "message": "Message Content",
-    "footer": "LSender",
+    "footer": "Wibble",
     "buttonText": "Click Me",
     "sections": [
         {
