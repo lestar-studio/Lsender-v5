@@ -28,7 +28,7 @@ class PhonebookController extends Controller
         $data['phonebook'] = ContactLabel::where([
             'user_id' => auth()->user()->id,
             'session_id' => session()->get('main_device')
-        ]);
+        ])->orderBy('id', 'desc');
         return Lyn::view('phonebook.index', $data);
     }
 
