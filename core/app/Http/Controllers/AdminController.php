@@ -17,15 +17,22 @@ class AdminController extends Controller
 {
     public function users(Request $request)
     {
-        if ($request->ajax() || $request->isMethod('POST')) {
+        $auth = auth()->user();
+        if ($auth->role == 'admin') {
             $table = User::all();
+        } else {
+            $table = User::where('id', $auth->id)->get();
+        }
+        if ($request->ajax() || $request->isMethod('POST')) {
             return datatables()->of($table)->addIndexColumn()
                 ->addColumn('responsive_id', function () {
                     return '';
                 })
-                ->addColumn('action', function ($row) {
+                ->addColumn('action', function ($row) use ($auth) {
                     $btn = '<a href="javascript:void(0)"  class="btn btn-icon btn-label-primary me-1 is-btn-user-edit" data-id="' . $row->id . '"><span class="ti ti-edit"></span></a>';
-                    $btn .= '<a href="javascript:void(0)" class="btn btn-icon btn-label-danger is-btn-user-delete" data-id="' . $row->id . '"><span class="ti ti-trash-x"></span></a>';
+                    if ($auth->role == 'admin') {
+                        $btn .= '<a href="javascript:void(0)" class="btn btn-icon btn-label-danger is-btn-user-delete" data-id="' . $row->id . '"><span class="ti ti-trash-x"></span></a>';
+                    }
                     return $btn;
                 })
                 ->addColumn('limit', function ($row) {

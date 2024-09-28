@@ -114,7 +114,7 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
         Route::post('/change', [PluginsController::class, 'change'])->name('plugins.change');
     });
 
-    Route::prefix('admin')->middleware('isadmin')->group(function () {
+    // Route::prefix('admin')->middleware('isadmin')->group(function () {
         Route::prefix('users')->group(function () {
             Route::get('/', [AdminController::class, 'users'])->name('admin.users');
             Route::post('/', [AdminController::class, 'users'])->name('admin.users.ajax')->withoutMiddleware(VerifyCsrfToken::class);
@@ -126,7 +126,7 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
 
         // Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
         // Route::post('/settings', [AdminController::class, 'settings'])->name('admin.settings.update');
-    });
+    // });
 });
 
 require_once(__DIR__ . '/files.php');

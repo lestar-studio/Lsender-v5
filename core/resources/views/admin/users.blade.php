@@ -29,7 +29,8 @@
                     <h5 class="modal-title" id="modalFullTitle">Add New User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="user-store" action="{{ route('admin.users.store') }}" method="post" style="display: contents" enctype="multipart/form-data">
+                <form id="user-store" action="{{ route('admin.users.store') }}" method="post" style="display: contents"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -57,7 +58,8 @@
                             <div class="col-12 col-xl-6 col-lg-6">
                                 <div class="mb-3">
                                     <label for="name">Limit Device</label>
-                                    <input type="number" min="0" value="0" class="form-control" name="limit_device" required autocomplete="off">
+                                    <input type="number" min="0" value="0" class="form-control"
+                                        name="limit_device" required autocomplete="off">
                                     <small>if you want unlimited fill it with 0</small>
                                 </div>
                             </div>
@@ -79,10 +81,11 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalFullTitle">Add New User</h5>
+                    <h5 class="modal-title" id="modalFullTitle">Edit User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="user-update" action="{{ route('admin.users.update') }}" method="post" style="display: contents" enctype="multipart/form-data">
+                <form id="user-update" action="{{ route('admin.users.update') }}" method="post" style="display: contents"
+                    enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" value="">
                     <div class="modal-body">
@@ -92,31 +95,35 @@
                         </div>
                         <div class="mb-3">
                             <label for="name">Username</label>
-                            <input type="text" class="form-control" name="username" required autocomplete="off">
+                            <input type="text" class="form-control" name="username" {{ $auth->role == 'admin' ? '' : 'readonly' }} required autocomplete="off">
                         </div>
                         <div class="mb-3">
                             <label for="name">Password</label>
                             <input type="text" class="form-control" name="password" autocomplete="off">
                             <small>Ignore it if you don't want to change the password</small>
                         </div>
-                        <div class="row">
-                            <div class="col-12 col-xl-6 col-lg-6">
-                                <div class="mb-3">
-                                    <label for="name">Role</label>
-                                    <select name="role" class="form-select" required>
-                                        <option value="user">User</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
+
+
+                            <div class="row {{ $auth->role == 'admin' ? '' : 'd-none' }}">
+                                <div class="col-12 col-xl-6 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="name">Role</label>
+                                        <select name="role" class="form-select" required>
+                                            <option value="user">User</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-xl-6 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="name">Limit Device</label>
+                                        <input type="number" min="0" value="0" class="form-control"
+                                            name="limit_device" required autocomplete="off">
+                                        <small>if you want unlimited fill it with 0</small>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-xl-6 col-lg-6">
-                                <div class="mb-3">
-                                    <label for="name">Limit Device</label>
-                                    <input type="number" min="0" value="0" class="form-control" name="limit_device" required autocomplete="off">
-                                    <small>if you want unlimited fill it with 0</small>
-                                </div>
-                            </div>
-                        </div>
+
 
                     </div>
                     <div class="modal-footer">
@@ -157,14 +164,18 @@
                     data: 'action'
                 }
             ],
-            btn: [{
-                text: '<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New</span>',
-                className: 'is-button-add btn btn-primary me-2 ',
-                attr: {
-                    'data-bs-toggle': 'modal',
-                    'data-bs-target': '#modal-add'
-                }
-            }],
+            btn: @if ($auth->role == 'admin')
+                [{
+                    text: '<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New</span>',
+                    className: 'is-button-add btn btn-primary me-2 ',
+                    attr: {
+                        'data-bs-toggle': 'modal',
+                        'data-bs-target': '#modal-add'
+                    }
+                }],
+            @else
+                [],
+            @endif
         })
 
         $("#user-store").submit(function(e) {
@@ -240,8 +251,10 @@
 
 @push('cssvendor')
     <link rel="stylesheet" href="{!! asset('assets') !!}/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
-    <link rel="stylesheet" href="{!! asset('assets') !!}/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
-    <link rel="stylesheet" href="{!! asset('assets') !!}/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
+    <link rel="stylesheet"
+        href="{!! asset('assets') !!}/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet"
+        href="{!! asset('assets') !!}/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
     <link rel="stylesheet" href="{!! asset('assets') !!}/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
 @endpush
 

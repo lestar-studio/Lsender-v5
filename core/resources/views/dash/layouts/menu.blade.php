@@ -89,11 +89,11 @@
                 <div data-i18n="File Manager">File Manager</div>
             </a>
         </li>
-        @if ($auth->role == 'admin')
+        {{-- @if ($auth->role == 'admin') --}}
             <li class="menu-item {{ Route::is('admin*') ? 'active' : '' }}">
                 <a href="javascript:void(0)" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons ti ti-brand-tabler" style="margin-bottom: 2px;"></i>
-                    <div data-i18n="Admin Menu">Admin Menu</div>
+                    <div data-i18n="Admin Menu">Management</div>
                 </a>
                 <ul class="menu-sub">
                     <li class="menu-item">
@@ -108,7 +108,7 @@
                     </li> --}}
                 </ul>
             </li>
-        @endif
+        {{-- @endif --}}
         {{-- <li class="menu-item">
             <a href="https://velixs.com/item/walazy-whatsap-gateway-md" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-code" style="margin-bottom: 2px;"></i>
