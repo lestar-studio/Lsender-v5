@@ -251,10 +251,11 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Receiver</th>
+                                <th>Receiver Name</th>
+                                <th>Receiver Phone</th>
                                 <th>type</th>
                                 <th>Status</th>
-                                <th>Updated_at</th>
+                                <th>Update</th>
                             </tr>
                         </thead>
                     </table>
@@ -287,6 +288,9 @@
             header: `List Receiver`,
             columns: [{
                     data: 'responsive_id'
+                },
+                {
+                    data: 'receiver_name',
                 },
                 {
                     data: 'receiver'

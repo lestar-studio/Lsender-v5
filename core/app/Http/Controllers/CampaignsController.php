@@ -225,7 +225,7 @@ class CampaignsController extends Controller
                     }
                 })
                 ->editColumn('updated_at', function ($row) {
-                    return $row->updated_at ? $row->updated_at->format('d, M Y (H : i)') : '-';
+                    return $row->updated_at ? $row->updated_at->format('d M Y (H : i)') : '-';
                 })
                 ->rawColumns(['status'])
                 ->make(true);
