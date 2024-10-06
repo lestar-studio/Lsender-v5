@@ -10,7 +10,15 @@
                 <div class="card-body">
                     <div class="d-flex align-items-start justify-content-between">
                         <div class="content-left">
-                            <span>Devices</span>
+                            <span>Devices</span></br>
+                            @if($is_expired) 
+                                <small class="text-danger">
+                                    Expired on <span class="fw-bold"> {{ $expired_date}} </span> </br>
+                                    renewal is required
+                                </small>
+                            @else
+                                <small>Active up to <span class="fw-bold"> {{ $expired_date}} </span></small>
+                            @endif
                             <div class="d-flex align-items-center my-1">
                                 <h4 class="mb-0 me-2" id="count-device">{{ $count_device }}</h4>
                                 <span class="text-success">({{ $count_device_online }} Online)</span>

@@ -19,7 +19,7 @@ class DashController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax() || $request->isMethod('post')) {
-            $table = Session::where(['user_id' => auth()->user()->id]);
+            $table = Session::with('user:id,expired_date')->where(['user_id' => auth()->user()->id]);
             return datatables()->of($table->get())->addIndexColumn()
                 ->addColumn('responsive_id', function () {
                     return;
@@ -35,14 +35,27 @@ class DashController extends Controller
                     return $row->whatsapp_number ? $row->whatsapp_number : '<span class="badge rounded-pill bg-label-danger">Not Connected</span>';
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('device.detail', $row->id) . '" class="btn btn-icon btn-label-primary me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="QR Code"><span class="ti ti-qrcode"></span></a>';
-                    $btn .= '<a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="Settings" class="btn btn-icon btn-label-dark me-1 is-show-settings" data-id="' . $row->id . '"><span class="ti ti-webhook"></span></a>';
+                    $btn = '';
+                    $now = date('Y-m-d');
+                    if ($row->user->expired_date && $row->user->expired_date > $now) {
+                        $btn = '<a href="' . route('device.detail', $row->id) . '" class="btn btn-icon btn-label-primary me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="QR Code"><span class="ti ti-qrcode"></span></a>';
+                        $btn .= '<a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="Settings" class="btn btn-icon btn-label-dark me-1 is-show-settings" data-id="' . $row->id . '"><span class="ti ti-webhook"></span></a>';
+                    }
                     $btn .= '<a href="javascript:void(0)" class="btn btn-icon btn-label-danger is-delete-device" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Device" data-id="' . $row->id . '"><span class="ti ti-trash-x"></span></a>';
                     return $btn;
+                })
+                ->addColumn('expired_date', function ($row) {
+                    if ($row->user->expired_date) {
+                        return $row->user->expired_date;
+                    } else {
+                        return 'Unlimited';
+                    }
                 })
                 ->rawColumns(['action', 'status', 'whatsapp_number'])
                 ->make(true);
         }
+        $data['is_expired'] = auth()->user()->expired_date && auth()->user()->expired_date < date('Y-m-d');
+        $data['expired_date'] = auth()->user()->expired_date ? date('d M Y', strtotime(auth()->user()->expired_date)) : 'Unlimited';
         $data['count_device_online'] = Session::where(['user_id' => auth()->user()->id, 'status' => 'CONNECTED'])->count();
         $data['count_device'] = Session::where(['user_id' => auth()->user()->id])->count();
         return Lyn::view('dash.dash', $data);

@@ -68,14 +68,14 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Username</label>
-                                <input type="text" class="form-control" value="{{ config('app.isdemo') ? 'admin' : '' }}" name="username" placeholder="Enter your username" autofocus required />
+                                <input type="text" class="form-control" value="{{ config('app.isdemo') ? 'admin' : '' }}" autocomplete="on" name="username" placeholder="Enter your username" autofocus required />
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">Password</label>
                                 </div>
                                 <div class="input-group input-group-merge">
-                                    <input type="password" class="form-control" value="{{ config('app.isdemo') ? 'admin' : '' }}" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                                    <input type="password" class="form-control" value="{{ config('app.isdemo') ? 'admin' : '' }}" autocomplete="on" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
                             </div>

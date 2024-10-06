@@ -13,6 +13,7 @@
                         <th></th>
                         <th>Receiver</th>
                         <th>Status</th>
+                        <th>Type</th>
                         <th>Created at</th>
                         <th>Action</th>
                     </tr>
@@ -44,6 +45,9 @@
                     },
                     {
                         data: 'status'
+                    },
+                    {
+                        data: 'message_type'
                     },
                     {
                         data: 'created_at'

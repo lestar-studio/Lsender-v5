@@ -192,6 +192,24 @@
     <script src="{!! asset('assets/libvelixs/ilsya.files.js') !!}"></script>
     <script src="{!! asset('assets/libvelixs/ilsya.message.js?v=121322') !!}"></script>
     <script>
+        let is_expired = '{{ $is_expired }}'
+        let btn = [
+            {
+                text: '<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">New Campaign</span>',
+                className: 'is-button-add btn btn-primary me-2 ',
+                disabled: is_expired,
+            }, {
+                text: '<i class="ti ti-trash me-sm-1"></i> <span class="d-none d-sm-inline-block">Delete</span>',
+                className: 'is-button-delete btn me-2 btn-label-danger'
+            }];
+
+        if(is_expired) {
+            btn = [{
+                text: '<i class="ti ti-trash me-sm-1"></i> <span class="d-none d-sm-inline-block">Delete</span>',
+                className: 'is-button-delete btn me-2 btn-label-danger'
+            }]
+        }
+        
         var ilsya = new velixs()
         var files = new FileManager({
             subfolder: "{{ $auth->id }}",
@@ -227,13 +245,7 @@
                     data: 'action'
                 }
             ],
-            btn: [{
-                text: '<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">New Campaign</span>',
-                className: 'is-button-add btn btn-primary me-2 '
-            }, {
-                text: '<i class="ti ti-trash me-sm-1"></i> <span class="d-none d-sm-inline-block">Delete</span>',
-                className: 'is-button-delete btn me-2 btn-label-danger'
-            }],
+            btn: btn,
         })
 
         $(document).on('click', '.is-change-status', function() {

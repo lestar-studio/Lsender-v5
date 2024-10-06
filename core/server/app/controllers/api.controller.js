@@ -4,6 +4,7 @@ const UsersDatabase = require('../database/users.db.js');
 const SessionConnection = require('../../WAServer/session.js');
 const Client = require('../../WAServer/Client/Client.js');
 const { commands, actSessionCommands, getSessionCommands,loadCommands } = require('../config/commands.js');
+const { logger } = require('../lib/myf.velixs.js');
 class ApiController extends SessionsDatabase {
     constructor() {
         super();
@@ -279,9 +280,13 @@ class ApiController extends SessionsDatabase {
 
             let session = await new SessionConnection(socket).getSession(dbsession.id);
             if (!session) return { status: false, message: 'Session is stopped.' };
+
+            let expired = await new UsersDatabase().getExpired(dbsession.user_id);
+            
+            if(expired) return { status: false, message: 'Renew your account.' };
             return { status: true, session: session, dbsession };
         } catch (e) {
-            return { status: false, message: 'Something went wrong.' };
+            return { status: false, message: 'Something went wrong' };
         }
     }
 

@@ -92,6 +92,7 @@ class CampaignsController extends Controller
             'user_id' => auth()->user()->id,
             'session_id' => session()->get('main_device'),
         ])->withCount('contacts')->get();
+        $data['is_expired'] = auth()->user()->expired_date && auth()->user()->expired_date < date('Y-m-d');
         return Lyn::view('campaigns.index', $data);
     }
 
