@@ -60,6 +60,7 @@ class AdminController extends Controller
         $user->username = $request->username;
         $user->role = $request->role;
         $user->limit_device = $request->limit_device == 0 ? null : $request->limit_device;
+        $user->membership_status = $request->membership_status;
         $user->password = bcrypt($request->password);
         $user->save();
 
@@ -83,6 +84,7 @@ class AdminController extends Controller
         $user->username = $request->username;
         $user->role = $request->role;
         $user->limit_device = $request->limit_device == 0 ? null : $request->limit_device;
+        $user->membership_status = $request->membership_status;
         if ($request->password) {
             $user->password = bcrypt($request->password);
         }

@@ -32,12 +32,17 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Main</span>
         </li>
+
+        {{-- Tampilkan menu Auto Responders jika membership_status tidak sama dengan 3 --}}
+        @if (auth()->user()->membership_status != 3)
         <li class="menu-item {{ Route::is('responder*') ? 'active' : '' }}">
             <a href="{!! route('responder') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-message-2-code" style="margin-bottom: 2px;"></i>
                 <div data-i18n="Auto Responders">Auto Responders</div>
             </a>
         </li>
+        @endif
+
         <li class="menu-item {{ Route::is('phonebook*') ? 'active' : '' }}">
             <a href="{!! route('phonebook') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-address-book" style="margin-bottom: 2px;"></i>
@@ -50,30 +55,24 @@
                 <div data-i18n="Campaigns">Campaigns</div>
             </a>
         </li>
-        {{-- <li class="menu-item {{ Route::is('broadcast*') ? 'active' : '' }}">
-            <a href="{!! route('broadcast') !!}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-broadcast" style="margin-bottom: 2px;"></i>
-                <div data-i18n="Broadcast">Broadcast</div>
-            </a>
-        </li> --}}
+
         <li class="menu-item {{ Route::is('single*') ? 'active' : '' }}">
             <a href="{!! route('single') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-brand-telegram" style="margin-bottom: 2px;"></i>
                 <div data-i18n="Single Sender">Single Sender</div>
             </a>
         </li>
+
+        {{-- Tampilkan menu Rest Api jika membership_status sama dengan 1 --}}
+        @if (auth()->user()->membership_status == 1)
         <li class="menu-item {{ Route::is('apidocs*') ? 'active' : '' }}">
             <a href="{!! route('apidocs') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-flame" style="margin-bottom: 2px;"></i>
                 <div data-i18n="Rest Api">Rest Api</div>
             </a>
         </li>
-        {{-- <li class="menu-item {{ Route::is('plugins*') ? 'active' : '' }}">
-            <a href="{!! route('plugins') !!}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-3d-cube-sphere" style="margin-bottom: 2px;"></i>
-                <div data-i18n="Plugins & Integration">Plugins & Integration</div>
-            </a>
-        </li> --}}
+        @endif
+
         <li class="menu-item {{ Route::is('history*') ? 'active' : '' }}">
             <a href="{!! route('history') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-history" style="margin-bottom: 2px;"></i>
@@ -89,33 +88,21 @@
                 <div data-i18n="File Manager">File Manager</div>
             </a>
         </li>
-        {{-- @if ($auth->role == 'admin') --}}
-            <li class="menu-item {{ Route::is('admin*') ? 'active' : '' }}">
-                <a href="javascript:void(0)" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons ti ti-brand-tabler" style="margin-bottom: 2px;"></i>
-                    <div data-i18n="Admin Menu">Management</div>
-                </a>
-                <ul class="menu-sub">
-                    <li class="menu-item">
-                        <a href="{!! route('admin.users') !!}" class="menu-link">
-                            <div data-i18n="Manage Users">Manage Users</div>
-                        </a>
-                    </li>
-                    {{-- <li class="menu-item">
-                        <a href="{!! route('admin.settings') !!}" class="menu-link">
-                            <div data-i18n="Settings">Settings</div>
-                        </a>
-                    </li> --}}
-                </ul>
-            </li>
-        {{-- @endif --}}
-        {{-- <li class="menu-item">
-            <a href="https://velixs.com/item/walazy-whatsap-gateway-md" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-code" style="margin-bottom: 2px;"></i>
-                <div data-i18n="Version 3.0.0">Version 5.x</div>
-                <div class="badge bg-label-success rounded-pill ms-auto">Current</div>
+
+        <li class="menu-item {{ Route::is('admin*') ? 'active' : '' }}">
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-brand-tabler" style="margin-bottom: 2px;"></i>
+                <div data-i18n="Admin Menu">Management</div>
             </a>
-        </li> --}}
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{!! route('admin.users') !!}" class="menu-link">
+                        <div data-i18n="Manage Users">Manage Users</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <li class="menu-item">
             <a href="{!! route('logout') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-logout" style="margin-bottom: 2px;"></i>

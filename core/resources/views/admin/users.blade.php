@@ -63,6 +63,14 @@
                                     <small>if you want unlimited fill it with 0</small>
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="status">Status</label>
+                                <select name="status" class="form-select" required>
+                                    <option value="3">Basic</option>
+                                    <option value="2">Standard</option>
+                                    <option value="1">Premium</option>
+                                </select>
+                            </div>
                         </div>
 
                     </div>
@@ -95,7 +103,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="name">Username</label>
-                            <input type="text" class="form-control" name="username" {{ $auth->role == 'admin' ? '' : 'readonly' }} required autocomplete="off">
+                            <input type="text" class="form-control" name="username"
+                                {{ $auth->role == 'admin' ? '' : 'readonly' }} required autocomplete="off">
                         </div>
                         <div class="mb-3">
                             <label for="name">Password</label>
@@ -104,26 +113,33 @@
                         </div>
 
 
-                            <div class="row {{ $auth->role == 'admin' ? '' : 'd-none' }}">
-                                <div class="col-12 col-xl-6 col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="name">Role</label>
-                                        <select name="role" class="form-select" required>
-                                            <option value="user">User</option>
-                                            <option value="admin">Admin</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-xl-6 col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="name">Limit Device</label>
-                                        <input type="number" min="0" value="0" class="form-control"
-                                            name="limit_device" required autocomplete="off">
-                                        <small>if you want unlimited fill it with 0</small>
-                                    </div>
+                        <div class="row {{ $auth->role == 'admin' ? '' : 'd-none' }}">
+                            <div class="col-12 col-xl-6 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="name">Role</label>
+                                    <select name="role" class="form-select" required>
+                                        <option value="user">User</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
                                 </div>
                             </div>
-
+                            <div class="col-12 col-xl-6 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="name">Limit Device</label>
+                                    <input type="number" min="0" value="0" class="form-control"
+                                        name="limit_device" required autocomplete="off">
+                                    <small>if you want unlimited fill it with 0</small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="membership_status">Status</label>
+                                <select name="membership_status" class="form-select" required>
+                                    <option value="3">Basic</option>
+                                    <option value="2">Standard</option>
+                                    <option value="1">Premium</option>
+                                </select>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
@@ -217,7 +233,8 @@
                     $("#modal-edit").find("input[name='name']").val(data.name)
                     $("#modal-edit").find("input[name='username']").val(data.username)
                     $("#modal-edit").find("select[name='role']").val(data.role)
-                    $("#modal-edit").find("input[name='limit_device']").val(data.limit_device)
+                    $("#modal-edit").find("input[name='limit_device']").val(data.limit_device ?? 0)
+                    $("#modal-edit").find("select[name='membership_status']").val(data.membership_status).trigger('change')
                 }
             })
         })
