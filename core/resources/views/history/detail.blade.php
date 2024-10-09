@@ -59,7 +59,7 @@
                         <div class="col-12 col-xl-6 col-lg-6">
                             <div class="mb-3"><label class="form-label">Media</label>
                                 <div class="input-group">
-                                    <input disabled type="text" class="form-control" value="{{ $data->media }}" name="media" required>
+                                    <input disabled type="text" class="form-control" value="{{ $data->url }}" name="media" required>
                                     <button class="btn btn-primary waves-effect is-button-preview" type="button">Preview</button>
                                 </div>
                             </div>
