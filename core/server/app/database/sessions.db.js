@@ -16,8 +16,12 @@ class SessionsDatabase {
         return await this.table.findOne({ where: { api_key: api_key } });
     }
 
-    async updateStatus(id, status = 'CONNECTED', whatsapp_number = null) {
-        return await this.table.update({ status: status, whatsapp_number: whatsapp_number }, { where: { id: id } });
+    async updateStatus(id, status = 'STOPPED', whatsapp_number = null) {
+        if(whatsapp_number) {
+            return await this.table.update({ status: status, whatsapp_number: whatsapp_number }, { where: { id: id } });
+        } else {
+            return await this.table.update({ status: status }, { where: { id: id } });
+        }
     }
 
     async getWebhook(id) {
