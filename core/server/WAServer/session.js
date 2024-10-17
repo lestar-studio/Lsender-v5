@@ -188,6 +188,7 @@ class SessionConnection extends SessionsDatabase {
                         status: 'close',
                     });
                     const reason = new Boom(lastDisconnect?.error)?.output.statusCode
+                    logger("debug", "[SESSION] CONNECTION CLOSED : " + `${session} ` + `(${reason})`);
                     if (reason === DisconnectReason.badSession) {
                         this.socket.emit(`servervelixs`, {
                             code_message: "endsession",
@@ -341,6 +342,7 @@ class SessionConnection extends SessionsDatabase {
                 }
             } catch (e) {
                 console.log(e);
+                logger("debug", "[SESSION] CONNECTION ERROR : " + `${session}`, true);
             }
         });
 
