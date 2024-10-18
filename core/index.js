@@ -54,6 +54,7 @@ const socket = io.on("connection", (socket) => {
                     });
                 } catch (e) {
                     await new SessionsDatabase().updateStatus(session);
+                    logger("error", `[SESSION] GET SESSION FAILED, SESSION NOT FOUND. ${e.message} `);
                     // socket emit
                     socket.emit(`logger`, {
                         session_id: session,
