@@ -26,7 +26,8 @@ class CampaignsController extends Controller
             if (!session()->get('main_device')) return response()->json(['message' => 'No main device selected'], 400);
             $auth = auth()->user();
             // update bulk
-            $campaigns = Campaigns::with('bulk')
+            $campaigns = Campaigns::select('id', 'name', 'status', 'user_id', 'session_id')
+                ->with('bulk:id,campaign_id,status')
                 ->where([
                     'user_id' => $auth->id,
                     'session_id' => session()->get('main_device'),
@@ -38,11 +39,12 @@ class CampaignsController extends Controller
             }
 
             // get campaigns
-            $table = Campaigns::with('bulk')
+            $table = Campaigns::select('id', 'name', 'status', 'user_id', 'session_id', 'scheduled_at', 'delay')
+                ->with('bulk:id,campaign_id,status')
                 ->where([
                     'user_id' => $auth->id,
                     'session_id' => session()->get('main_device'),
-                ])->orderBy('created_at', 'desc')->get();
+                ])->orderBy('created_at', 'desc');
 
             return datatables()->of($table)
                 ->addColumn('responsive_id', function () {
@@ -279,13 +281,12 @@ class CampaignsController extends Controller
     {
         $count_sent = collect($data->bulk)->where('status', '!=', 'sent')->count();
 
-        $campaign = Campaigns::find($data->id);
         if ($count_sent > 0) {
-            $campaign->status = 'processing';
+            $data->status = 'processing';
         } else {
-            $campaign->status = 'completed';
+            $data->status = 'completed';
         }
 
-        $campaign->save();
+        $data->save();
     }
 }
