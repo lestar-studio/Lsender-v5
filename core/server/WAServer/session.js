@@ -1,8 +1,8 @@
 const {
     default: WASocket,
-    makeInMemoryStore,
     DisconnectReason,
     useMultiFileAuthState,
+    fetchLatestWaWebVersion,
 } = require("@whiskeysockets/baileys");
 const { logger } = require("../app/lib/myf.velixs.js");
 const pino = require("pino");
@@ -80,32 +80,15 @@ class SessionConnection extends SessionsDatabase {
         const storePath = `${this.sessionPath}/${session}/store_walix.json`;
         if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
         let { state, saveCreds } = await useMultiFileAuthState(sessionDir);
-        const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) });
+        const { version, isLatest } = await fetchLatestWaWebVersion();
 
         const velixs = WASocket({
             printQRInTerminal: false,
             auth: state,
             logger: pino({ level: "silent" }),
             browser: ["Wibble", "Chrome", "3.0"],
+            version
         });
-
-        try {
-            store.readFromFile(storePath);
-            let store_interval = setInterval(() => {
-                try {
-                    store.writeToFile(storePath);
-                } catch (e) {
-                    if (e.code === "ENOENT") {
-                        clearInterval(store_interval)
-                    }
-                }
-            }, 10000);
-
-            store.bind(velixs.ev);
-            velixs.chats = store.chats;
-        } catch (e) {
-            logger("error", "[SESSION] STORE ERROR : " + `${session} `);
-        }
 
         sessionMap.set(session, { ...velixs, isStop: false }); // add session to map
 
