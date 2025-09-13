@@ -250,11 +250,11 @@ class SingleSender extends Controller
         } else if ($request->message_type == 'media') {
             $request->validate([
                 'data.media_type' => 'required',
-                'data.media' => 'required',
+                'data.url' => 'required',
             ]);
             $pars['waiting'] = 3000;
             $pars['data'] = array(
-                'url' => $request->data['media'],
+                'url' => $request->data['url'],
                 'media_type' => $request->data['media_type'],
                 'caption' => $request->data['caption'] ?? '',
             );

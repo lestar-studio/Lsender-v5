@@ -60,7 +60,7 @@ class Lyn
                 'message' => $request->message,
             );
 
-            if($request->quoted == 'yes'){
+            if ($request->quoted == 'yes') {
                 $data['quoted'] = $request->quoted;
             }
 
@@ -76,7 +76,7 @@ class Lyn
                 'caption' => $request->message ?? '',
             );
 
-            if($request->quoted == 'yes'){
+            if ($request->quoted == 'yes') {
                 $data['quoted'] = $request->quoted;
             }
 

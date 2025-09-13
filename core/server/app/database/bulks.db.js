@@ -14,7 +14,8 @@ class BulksDatabase {
             where: {
                 campaign_id,
                 [Op.or]: [
-                    { status: 'pending' }
+                    { status: 'pending' },
+                    { status: 'failed' }
                 ]
             }
         });

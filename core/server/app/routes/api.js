@@ -21,4 +21,6 @@ router.post('/act-plugins', validator.actPlugins(), api.actPlugin.bind(api));
 router.get('/reload-plugins', api.reloadPlugins.bind(api));
 
 router.post('/triger-campaigns', validator.trigerCampaigns(), api.trigerCampaigns.bind(api));
+
+router.all('/workflow/:slug', api.webhook.bind(api));
 module.exports = router;

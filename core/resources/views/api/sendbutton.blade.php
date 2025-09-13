@@ -17,7 +17,7 @@
             <p>SendText is an API that allows you to send button messages to WhatsApp numbers.</p>
             <span class="text-info">Endpoint :</span> {!! config('app.base_node') !!}/api/send-button <br>
             <span class="text-info">Method :</span> POST <br>
-            {{-- <span class="text-info">Download Example PHP :</span> <a class="fw-bold" target="_blank" href="https://github.com/ilsyaa/example-lazygateway">Download</a><br> --}}
+            <span class="text-info">Download Example PHP :</span> <a class="fw-bold" target="_blank" href="https://github.com/ilsyaa/example-lazygateway">Download</a><br>
 
             <div class="card accordion-item mt-3">
                 <h2 class="accordion-header">
@@ -29,8 +29,8 @@
                 <div id="sendtext-array" class="accordion-collapse collapse show">
                     <div class="accordion-body">
                         <pre style="border-radius: 6px;"><code class="hljs language-php">{
-  "api_key" => "{!! $main_device->api_key !!}",
-  "receiver" => "628xxxxxxxx",
+  "api_key": "{!! $main_device->api_key !!}",
+  "receiver": "628xxxxxxxx",
   "data": {
     "message": "ini pesan button",
     "footer": "velixs - 2023",

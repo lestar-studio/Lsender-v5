@@ -222,4 +222,117 @@ module.exports = {
             { tableName: "bulks", timestamps: true, createdAt: "created_at", updatedAt: "updated_at" }
         ]
     },
+    b_workflows() {
+        return [
+            'workflows',
+            {
+                id: {
+                    type: DataTypes.BIGINT,
+                    autoIncrement: true,
+                    primaryKey: true,
+                    allowNull: false,
+                },
+                session_id: {
+                    type: DataTypes.UUID,
+                    allowNull: false,
+                },
+                user_id: {
+                    type: DataTypes.BIGINT,
+                    allowNull: false,
+                },
+                title: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                },
+                slug: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                },
+                message_template_id: {
+                    type: DataTypes.BIGINT,
+                    allowNull: false,
+                },
+                variables: {
+                    type: DataTypes.JSON,
+                    allowNull: false,
+                },
+                status: {
+                    type: DataTypes.ENUM('dev', 'prod'),
+                    allowNull: false,
+                    defaultValue: 'prod',
+                },
+            },
+            { tableName: "workflows", timestamps: true, createdAt: "created_at", updatedAt: "updated_at" }
+        ]
+    },
+    b_message_templates() {
+        return [
+            'message_templates',
+            {
+                id: {
+                    type: DataTypes.BIGINT,
+                    autoIncrement: true,
+                    primaryKey: true,
+                    allowNull: false,
+                },
+                user_id: {
+                    type: DataTypes.BIGINT,
+                    allowNull: false,
+                },
+                title: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                },
+                message: {
+                    type: DataTypes.TEXT,
+                    allowNull: false,
+                },
+            },
+            { tableName: "message_templates", timestamps: true, createdAt: "created_at", updatedAt: "updated_at" }
+        ]
+    },
+    b_workflow_jobs() {
+        return [
+            'workflow_jobs',
+            {
+                id: {
+                    type: DataTypes.BIGINT,
+                    autoIncrement: true,
+                    primaryKey: true,
+                    allowNull: false,
+                },
+                session_id: {
+                    type: DataTypes.UUID,
+                    allowNull: false,
+                },
+                user_id: {
+                    type: DataTypes.BIGINT,
+                    allowNull: false,
+                },
+                workflow_id: {
+                    type: DataTypes.BIGINT,
+                    allowNull: false,
+                },
+                receiver: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                },
+                message: {
+                    type: DataTypes.TEXT,
+                    allowNull: false,
+                },
+                status: {
+                    type: DataTypes.ENUM('sent', 'invalid', 'failed', 'pending'),
+                    allowNull: false,
+                    defaultValue: 'pending',
+                },
+                attempts: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    defaultValue: 0,
+                },
+            },
+            { tableName: "workflow_jobs", timestamps: true, createdAt: "created_at", updatedAt: "updated_at" }
+        ];
+    }
 }

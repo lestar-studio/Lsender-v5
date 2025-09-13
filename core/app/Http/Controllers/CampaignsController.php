@@ -25,26 +25,10 @@ class CampaignsController extends Controller
         if ($request->ajax() || $request->isMethod('post')) {
             if (!session()->get('main_device')) return response()->json(['message' => 'No main device selected'], 400);
             $auth = auth()->user();
-            // update bulk
-            $campaigns = Campaigns::select('id', 'name', 'status', 'user_id', 'session_id')
-                ->with('bulk:id,campaign_id,status')
-                ->where([
-                    'user_id' => $auth->id,
-                    'session_id' => session()->get('main_device'),
-                ])
-                ->where('status', '!=', 'completed')
-                ->get();
-            foreach ($campaigns as $key => $value) {
-                $this->update_bulks($value);
-            }
-
-            // get campaigns
-            $table = Campaigns::select('id', 'name', 'status', 'user_id', 'session_id', 'scheduled_at', 'delay')
-                ->with('bulk:id,campaign_id,status')
-                ->where([
-                    'user_id' => $auth->id,
-                    'session_id' => session()->get('main_device'),
-                ])->orderBy('created_at', 'desc');
+            $table = Campaigns::where([
+                'user_id' => $auth->id,
+                'session_id' => session()->get('main_device'),
+            ])->orderBy('created_at', 'desc')->get();
 
             return datatables()->of($table)
                 ->addColumn('responsive_id', function () {
@@ -227,7 +211,7 @@ class CampaignsController extends Controller
                     }
                 })
                 ->editColumn('updated_at', function ($row) {
-                    return $row->updated_at ? $row->updated_at->format('d M Y (H : i)') : '-';
+                    return $row->updated_at ? $row->updated_at->format('d, M Y (H : i)') : '-';
                 })
                 ->rawColumns(['status'])
                 ->make(true);
@@ -263,7 +247,6 @@ class CampaignsController extends Controller
 
         return response()->json(['message' => 'Campaign deleted'], 200);
     }
-
     public function validate_number($number)
     {
         $cleaned_number = preg_replace('/[^0-9]/', '', $number);
@@ -275,18 +258,5 @@ class CampaignsController extends Controller
         } else {
             return $cleaned_number;
         }
-    }
-
-    public function update_bulks($data)
-    {
-        $count_sent = collect($data->bulk)->where('status', '!=', 'sent')->count();
-
-        if ($count_sent > 0) {
-            $data->status = 'processing';
-        } else {
-            $data->status = 'completed';
-        }
-
-        $data->save();
     }
 }

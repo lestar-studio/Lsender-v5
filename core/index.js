@@ -7,6 +7,7 @@ const { Server } = require('socket.io');
 const SessionsDatabase = require("./server/app/database/sessions.db.js");
 const SessionConnection = require("./server/WAServer/session.js");
 const url = require('url');
+const Workflow = require("./server/WAServer/Client/Workflow.js");
 
 const server = new app();
 
@@ -110,4 +111,6 @@ server.app.set('socket', socket);
 
 (async () => {
     await new SessionConnection(socket).autoStart();
+
+    new Workflow(socket).main();
 })();

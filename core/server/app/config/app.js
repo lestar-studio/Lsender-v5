@@ -13,7 +13,7 @@ class app {
         this.app = express();
         this.plugins();
         this.routes();
-        this.lv = '5.0.1';
+        this.lv = '5.0.2';
     }
 
     plugins() {
@@ -38,6 +38,7 @@ class app {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(express.json())
+        // this.app.use(express.static('app'))
         this.app.use((req, res, next) => {
             res.header('Access-Control-Allow-Origin', '*');
             res.set('Cache-Control', 'no-store');

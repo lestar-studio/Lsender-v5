@@ -8,9 +8,11 @@ use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\DashController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\MessageTemplateController;
 use App\Http\Controllers\PhonebookController;
 use App\Http\Controllers\PluginsController;
 use App\Http\Controllers\SingleSender;
+use App\Http\Controllers\WorkflowController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,7 +31,9 @@ Route::post('login', [AuthController::class, 'store'])->name('login');
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/', [DashController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+})->middleware('auth');
 
 Route::get('storage', [DashController::class, 'storage'])->name('storage');
 
@@ -114,7 +118,25 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
         Route::post('/change', [PluginsController::class, 'change'])->name('plugins.change');
     });
 
-    // Route::prefix('admin')->middleware('isadmin')->group(function () {
+    Route::prefix('message-template')->group(function () {
+        Route::get('/', [MessageTemplateController::class, 'index'])->name('message-template');
+        Route::post('/', [MessageTemplateController::class, 'store'])->name('message-template.store');
+        Route::get('/{id}', [MessageTemplateController::class, 'edit'])->name('message-template.edit');
+        Route::post('/update', [MessageTemplateController::class, 'update'])->name('message-template.update');
+        Route::post('/delete/{id}', [MessageTemplateController::class, 'delete'])->name('message-template.delete');
+    });
+
+    Route::prefix('workflow')->group(function () {
+        Route::get('/', [WorkflowController::class, 'index'])->name('workflow');
+        Route::post('/', [WorkflowController::class, 'store'])->name('workflow.store');
+        Route::get('/{id}', [WorkflowController::class, 'edit'])->name('workflow.edit');
+        Route::post('/update-general', [WorkflowController::class, 'update_general'])->name('workflow.update-general');
+        Route::post('/update-variable', [WorkflowController::class, 'update_variable'])->name('workflow.update-variable');
+        Route::post('/capture-dev/{id}', [WorkflowController::class, 'capture_dev'])->name('workflow.capture-dev');
+        Route::post('/delete/{id}', [WorkflowController::class, 'delete'])->name('workflow.delete');
+    });
+
+    Route::prefix('admin')->middleware('isadmin')->group(function () {
         Route::prefix('users')->group(function () {
             Route::get('/', [AdminController::class, 'users'])->name('admin.users');
             Route::post('/', [AdminController::class, 'users'])->name('admin.users.ajax')->withoutMiddleware(VerifyCsrfToken::class);
@@ -126,7 +148,7 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
 
         // Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
         // Route::post('/settings', [AdminController::class, 'settings'])->name('admin.settings.update');
-    // });
+    });
 });
 
 require_once(__DIR__ . '/files.php');

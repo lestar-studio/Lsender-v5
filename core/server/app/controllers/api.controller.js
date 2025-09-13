@@ -1,9 +1,11 @@
-const { validationResult } = require('express-validator');
+const { validationResult, body, query } = require('express-validator');
 const SessionsDatabase = require('../database/sessions.db.js');
-const UsersDatabase = require('../database/users.db.js');
 const SessionConnection = require('../../WAServer/session.js');
 const Client = require('../../WAServer/Client/Client.js');
 const { commands, actSessionCommands, getSessionCommands,loadCommands } = require('../config/commands.js');
+const workflowsDatabase = require('../database/workflows.db.js');
+const WorkflowJobsDatabase = require('../database/workflow-jobs.db.js');
+const messageTemplateDatabase = require('../database/message-template.db.js');
 class ApiController extends SessionsDatabase {
     constructor() {
         super();
@@ -13,27 +15,13 @@ class ApiController extends SessionsDatabase {
         res.json({ message: 'Server Running!' });
     }
 
-    async validateNumber(number) {
-        const cleanedNumber = number.replace(/[^0-9]/g, '');
-        if (cleanedNumber.startsWith('+')) {
-            return `62${cleanedNumber.slice(1)}`;
-        } else if (cleanedNumber.startsWith('0')) {
-            return `62${cleanedNumber.slice(1)}`;
-        } else {
-            return cleanedNumber;
-        }
-    }
-
-
-
     async sendMessage(req, res) {
         const { receiver, data } = req.body;
-        const validNumber = await this.validateNumber(receiver);
         const asolo = await this.asolo(req, res);
         if (!asolo.status) return res.status(400).json(asolo);
         try {
-            let client = new Client(asolo.session, validNumber);
-            if (!await client.isWhatsapp(validNumber)) return res.status(400).json({ status: false, message: 'Invalid WhatsApp number.' });
+            let client = new Client(asolo.session, receiver);
+            if (!await client.isWhatsapp(receiver)) return res.status(400).json({ status: false, message: 'Invalid WhatsApp number.' });
             await client.sendText(data.message).then(() => {
                 return res.status(200).json({ status: true, message: 'Message sent.' });
             }).catch(() => {
@@ -285,6 +273,94 @@ class ApiController extends SessionsDatabase {
         }
     }
 
+    async webhook(req, res) {
+        try {
+            const workflow = new workflowsDatabase();
+            const workflowJobs = new WorkflowJobsDatabase();
+            const messageTemplate = new messageTemplateDatabase();
+            const getRow = await workflow.table.findOne({ where: { slug: req.params.slug } });
+            if(!getRow) throw new Error('Workflow not found.');
+            const socket = req.app.get('socket');
+
+            if(getRow.status == 'dev') {
+                socket.emit('workflow_callback', {
+                    workflow_id: getRow.id,
+                    body: req.body,
+                    query: req.query,
+                    headers: req.headers
+                });
+                await workflow.table.update({ status: 'prod' }, { where: { id: getRow.id } });
+                return res.status(200).json({ status: true });
+            } else {
+                const msgtemplate = await messageTemplate.table.findOne({ where: { id: getRow.message_template_id } });
+                if(!msgtemplate) throw new Error('Message template not found.');
+                let regex = {};
+                if(typeof getRow.variables == 'string') getRow.variables = JSON.parse(getRow.variables);
+                for (let key in getRow.variables) {
+                    regex[`{${key}}`] = getRow.variables[key]
+                        .split('.')
+                        .reduce((o, k) => (o || {})[k], req);
+                }
+                let message = msgtemplate.message;
+                for (let key in regex) {
+                    message = message.replace(key, regex[key]);
+                }
+                let receiver = regex['{receiver}'];
+                let session = await new SessionConnection(socket).getSession(getRow.session_id);
+                let sessiondb = await this.table.findOne({ where: { id: getRow.session_id } });
+                let client = new Client(session, receiver);
+                if (!await client.isWhatsapp(receiver)) {
+                    // await workflowJobs.table.create({
+                    //     user_id: getRow.user_id,
+                    //     session_id: getRow.session_id,
+                    //     workflow_id: getRow.id,
+                    //     receiver: receiver,
+                    //     message: message,
+                    //     status: 'invalid',
+                    // });
+                    throw new Error('Invalid WhatsApp number.');
+                }
+
+                if(sessiondb.status !== 'CONNECTED') {
+                    await workflowJobs.table.create({
+                        user_id: getRow.user_id,
+                        session_id: getRow.session_id,
+                        workflow_id: getRow.id,
+                        receiver: receiver,
+                        message: message,
+                        status: 'failed',
+                    });
+                    throw new Error('Session is stopped.');
+                }
+
+                await client.sendText(message).then(async () => {
+                    // await workflowJobs.table.create({
+                    //     user_id: getRow.user_id,
+                    //     session_id: getRow.session_id,
+                    //     workflow_id: getRow.id,
+                    //     receiver: receiver,
+                    //     message: message,
+                    //     status: 'sent',
+                    // });
+                }).catch(async () => {
+                    await workflowJobs.table.create({
+                        user_id: getRow.user_id,
+                        session_id: getRow.session_id,
+                        workflow_id: getRow.id,
+                        receiver: receiver,
+                        message: message,
+                        status: 'failed',
+                    });
+                });
+
+                return res.status(200).json({ status: true });
+            }
+
+        } catch (e) {
+            console.error(e);
+            return res.status(400).json({ status: false, message: e?.message || 'Something went wrong.' });
+        }
+    }
 }
 
 module.exports = ApiController;

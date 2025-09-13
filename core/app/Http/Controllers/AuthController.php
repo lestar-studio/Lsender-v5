@@ -30,8 +30,8 @@ class AuthController extends Controller
         $remember = $request->has('remember') ? true : false;
         auth()->login($user, $remember);
 
-        return redirect()->route('dashboard');
-        // return redirect()->intended(route('dashboard'));
+        // return redirect()->route('dashboard');
+        return redirect()->intended(route('dashboard'));
     }
 
     public function logout()

@@ -2,7 +2,7 @@
     <div class="app-brand demo">
         <a href="{!! route('dashboard') !!}" class="app-brand-link">
             <span class="app-brand-logo demo" style="height: unset">
-                <img style="height: 30px" src="{!! asset('assets/img/logo.png') !!}" alt="Wibble">
+                <img style="height: 30px" src="{!! asset('assets/img/logo.png') !!}" alt="walix">
             </span>
             <span class="app-brand-text demo menu-text fw-bold">Wibble Chat</span>
         </a>
@@ -68,12 +68,24 @@
                 <div data-i18n="Rest Api">Rest Api</div>
             </a>
         </li>
-        {{-- <li class="menu-item {{ Route::is('plugins*') ? 'active' : '' }}">
+        <li class="menu-item {{ Route::is('plugins*') ? 'active' : '' }}">
             <a href="{!! route('plugins') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-3d-cube-sphere" style="margin-bottom: 2px;"></i>
                 <div data-i18n="Plugins & Integration">Plugins & Integration</div>
             </a>
-        </li> --}}
+        </li>
+        <li class="menu-item {{ Route::is('message-template*') ? 'active' : '' }}">
+            <a href="{!! route('message-template') !!}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-message" style="margin-bottom: 2px;"></i>
+                <div data-i18n="Plugins & Integration">Message Template</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Route::is('workflow*') ? 'active' : '' }}">
+            <a href="{!! route('workflow') !!}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-network" style="margin-bottom: 2px;"></i>
+                <div data-i18n="Plugins & Integration">Webhook Workflow</div>
+            </a>
+        </li>
         <li class="menu-item {{ Route::is('history*') ? 'active' : '' }}">
             <a href="{!! route('history') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-history" style="margin-bottom: 2px;"></i>
@@ -89,11 +101,11 @@
                 <div data-i18n="File Manager">File Manager</div>
             </a>
         </li>
-        {{-- @if ($auth->role == 'admin') --}}
+        @if ($auth->role == 'admin')
             <li class="menu-item {{ Route::is('admin*') ? 'active' : '' }}">
                 <a href="javascript:void(0)" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons ti ti-brand-tabler" style="margin-bottom: 2px;"></i>
-                    <div data-i18n="Admin Menu">Management</div>
+                    <div data-i18n="Admin Menu">Admin Menu</div>
                 </a>
                 <ul class="menu-sub">
                     <li class="menu-item">
@@ -108,14 +120,14 @@
                     </li> --}}
                 </ul>
             </li>
-        {{-- @endif --}}
-        {{-- <li class="menu-item">
+        @endif
+        <!-- <li class="menu-item">
             <a href="https://velixs.com/item/walazy-whatsap-gateway-md" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-code" style="margin-bottom: 2px;"></i>
                 <div data-i18n="Version 3.0.0">Version 5.x</div>
                 <div class="badge bg-label-success rounded-pill ms-auto">Current</div>
             </a>
-        </li> --}}
+        </li> -->
         <li class="menu-item">
             <a href="{!! route('logout') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-logout" style="margin-bottom: 2px;"></i>
