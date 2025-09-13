@@ -68,7 +68,7 @@
                 <div data-i18n="Rest Api">Rest Api</div>
             </a>
         </li>
-        <li class="menu-item {{ Route::is('plugins*') ? 'active' : '' }}">
+        <!-- <li class="menu-item {{ Route::is('plugins*') ? 'active' : '' }}">
             <a href="{!! route('plugins') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-3d-cube-sphere" style="margin-bottom: 2px;"></i>
                 <div data-i18n="Plugins & Integration">Plugins & Integration</div>
@@ -85,7 +85,7 @@
                 <i class="menu-icon tf-icons ti ti-network" style="margin-bottom: 2px;"></i>
                 <div data-i18n="Plugins & Integration">Webhook Workflow</div>
             </a>
-        </li>
+        </li> -->
         <li class="menu-item {{ Route::is('history*') ? 'active' : '' }}">
             <a href="{!! route('history') !!}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-history" style="margin-bottom: 2px;"></i>
