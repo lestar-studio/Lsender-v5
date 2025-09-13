@@ -20,8 +20,10 @@ class app {
         try{
             axios.get('https://raw.githubusercontent.com/ilsyaa/lazy-version/master/walazy.json',{
                 httpsAgent: new https.Agent({
-                    rejectUnauthorized: false
-                })
+                    rejectUnauthorized: false,
+                    family: 4
+                }),
+                timeout: 10000
             }).then(res => {
                 if (this.lv != res.data.version) {
                     logger('warning', '[VERSION] NEW VERSION AVAILABLE: ' + res.data.version)
