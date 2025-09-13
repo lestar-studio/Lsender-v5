@@ -95,7 +95,7 @@ class SessionConnection extends SessionsDatabase {
                 })),
             },
             logger: pino({ level: "silent" }),
-            browser: ["WALazy", "Safari", "3.0"],
+            browser: ["Wibble", "Chrome", "3.0.0"],
             markOnlineOnConnect: true,
             version,
             msgRetryCounterCache,
