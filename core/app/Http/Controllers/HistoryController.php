@@ -10,11 +10,11 @@ class HistoryController extends Controller
 {
     public function index(Request $request)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             if (!session()->get('main_device')) return response()->json(['message' => 'No main device selected'], 400);
             $auth = auth()->user();
             $table = History::where([
-                'user_id' => $auth->id,
+                // 'user_id' => $auth->id,
                 'session_id' => session()->get('main_device'),
             ])->orderBy('created_at', 'desc')->get();
 
@@ -40,7 +40,7 @@ class HistoryController extends Controller
                         return '<span class="badge bg-label-danger">Failed</span>';
                     }
                 })
-                ->editColumn('created_at',function($row){
+                ->editColumn('created_at', function ($row) {
                     return $row->created_at->format('d M Y H:i');
                 })
                 ->addColumn('action', function ($row) {
@@ -55,11 +55,12 @@ class HistoryController extends Controller
         }
     }
 
-    public function detail(Request $request, $id){
+    public function detail(Request $request, $id)
+    {
         if (!session()->get('main_device')) return Lyn::view('nodevice');
         $row = History::where([
             'id' => $id,
-            'user_id' => auth()->user()->id,
+            // 'user_id' => auth()->user()->id,
             'session_id' => session()->get('main_device'),
         ])->first();
 
@@ -76,7 +77,7 @@ class HistoryController extends Controller
         if (!session()->get('main_device')) return response()->json(['message' => 'No main device selected'], 400);
 
         History::whereIn('id', $request->id)->where([
-            'user_id' => auth()->id(),
+            // 'user_id' => auth()->id(),
             'session_id' => session()->get('main_device'),
         ])->delete();
 
