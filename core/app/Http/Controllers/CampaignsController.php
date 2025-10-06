@@ -28,7 +28,7 @@ class CampaignsController extends Controller
             $table = Campaigns::where([
                 'user_id' => $auth->id,
                 'session_id' => session()->get('main_device'),
-            ])->orderBy('created_at', 'desc')->get();
+            ])->orderBy('created_at', 'desc');
 
             return datatables()->of($table)
                 ->addColumn('responsive_id', function () {
