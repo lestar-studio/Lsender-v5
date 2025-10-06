@@ -200,7 +200,7 @@ class SessionConnection extends SessionsDatabase {
                                 type: 'debug',
                                 message: `[SESSION] CONNECTION LOST, RECONNECTING...`
                             });
-                            logger("debug", "[SESSION] CONNECTION LOST, RECONNECTING..." + `${lastDisconnect?.error}`);
+                            logger("debug", "[SESSION] CONNECTION LOST, RECONNECTING..." + `${lastDisconnect?.error?.toString()}`);
                             velixs.ev.removeAllListeners("connection.update");
                             velixs.end();
                             this.createSession(session);
