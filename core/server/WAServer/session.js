@@ -200,6 +200,7 @@ class SessionConnection extends SessionsDatabase {
                                 type: 'debug',
                                 message: `[SESSION] CONNECTION LOST, RECONNECTING...`
                             });
+                            logger("debug", "[SESSION] CONNECTION LOST, RECONNECTING..." + `${lastDisconnect?.error}`);
                             velixs.ev.removeAllListeners("connection.update");
                             velixs.end();
                             this.createSession(session);
@@ -221,134 +222,6 @@ class SessionConnection extends SessionsDatabase {
                         session_id: session,
                         status: 'close',
                     });
-                    // const reason = new Boom(lastDisconnect?.error)?.output.statusCode
-                    // if (reason === DisconnectReason.badSession) {
-                    //     this.socket.emit(`servervelixs`, {
-                    //         code_message: "endsession",
-                    //         session_id: session,
-                    //         message: "Bad Session File.",
-                    //     });
-                    //     this.socket.emit('logger', {
-                    //         session_id: session,
-                    //         type: 'error',
-                    //         message: `[SESSION] BAD SESSION FILE, PLEASE REGENERATE QR CODE.`
-                    //     });
-                    //     logger("error", "[SESSION] BAD SESSION FILE : " + `${session}`, true);
-                    //     velixs.ev.removeAllListeners("connection.update");
-                    //     velixs.end();
-                    //     return this.deleteSession(session);
-                    // } else if (reason === DisconnectReason.connectionClosed) {
-                    //     logger("debug", "[SESSION] CONNECTION CLOSED, RECONNECTING : " + `${session}`, true);
-                    //     this.socket.emit(`servervelixs`, {
-                    //         code_message: "reconnect",
-                    //         session_id: session,
-                    //         message: "Connection Closed, Reconnecting...",
-                    //     });
-                    //     this.socket.emit('logger', {
-                    //         session_id: session,
-                    //         type: 'debug',
-                    //         message: `[SESSION] CONNECTION CLOSED, RECONNECTING...`
-                    //     });
-                    //     velixs.ev.removeAllListeners("connection.update");
-                    //     velixs.end();
-                    //     this.createSession(session);
-                    // } else if (reason === DisconnectReason.connectionLost) {
-                    //     logger("debug", "[SESSION] CONNECTION LOST, RECONNECTING : " + `${session}`, true);
-                    //     this.socket.emit(`servervelixs`, {
-                    //         code_message: "reconnect",
-                    //         session_id: session,
-                    //         message: "Connection Lost, Reconnecting...",
-                    //     });
-                    //     this.socket.emit('logger', {
-                    //         session_id: session,
-                    //         type: 'debug',
-                    //         message: `[SESSION] CONNECTION LOST, RECONNECTING...`
-                    //     });
-                    //     velixs.ev.removeAllListeners("connection.update");
-                    //     velixs.end();
-                    //     this.createSession(session);
-                    // } else if (reason === DisconnectReason.connectionReplaced) {
-                    //     logger("debug", "[SESSION] CONNECTION REPLACED, ANOTHER NEW SESSION OPENED, PLEASE CLOSE CURRENT SESSION FIRST : " + `${session}`, true);
-                    //     this.socket.emit(`servervelixs`, {
-                    //         code_message: "endsession",
-                    //         session_id: session,
-                    //         message: "Connection Replaced, Another New Session Opened.",
-                    //     });
-                    //     this.socket.emit('logger', {
-                    //         session_id: session,
-                    //         type: 'debug',
-                    //         message: `[SESSION] CONNECTION REPLACED, PLEASE CLOSE CURRENT SESSION FIRST.`
-                    //     });
-                    //     velixs.ev.removeAllListeners("connection.update");
-                    //     velixs.end();
-                    //     return this.deleteSession(session);
-                    // } else if (reason === DisconnectReason.loggedOut) {
-                    //     logger("debug", "[SESSION] LOGGED OUT, PLEASE REGENERATE QR CODE : " + `${session}`, true);
-                    //     this.socket.emit(`servervelixs`, {
-                    //         code_message: "endsession",
-                    //         session_id: session,
-                    //         message: "Logged Out, Please Regenerate QR Code.",
-                    //     });
-                    //     this.socket.emit('logger', {
-                    //         session_id: session,
-                    //         type: 'debug',
-                    //         message: `[SESSION] LOGGED OUT, PLEASE RESTART SESSION!`
-                    //     });
-                    //     velixs.ev.removeAllListeners("connection.update");
-                    //     velixs.end();
-                    //     this.deleteSession(session, false);
-                    // } else if (reason === DisconnectReason.restartRequired) {
-                    //     logger("debug", "[SESSION] RESTART REQUIRED, RESTARTING : " + `${session}`, true);
-                    //     this.socket.emit(`servervelixs`, {
-                    //         code_message: "reconnect",
-                    //         session_id: session,
-                    //         message: "Restart Required, Restarting...",
-                    //     });
-                    //     this.socket.emit('logger', {
-                    //         session_id: session,
-                    //         type: 'debug',
-                    //         message: `[SESSION] RESTART REQUIRED, RESTARTING...`
-                    //     });
-                    //     velixs.ev.removeAllListeners("connection.update");
-                    //     velixs.end();
-                    //     this.createSession(session);
-                    // } else if (reason === DisconnectReason.timedOut) {
-                    //     logger("debug", "[SESSION] CONNECTION TIMED OUT, RECONNECTING : " + `${session}`, true);
-                    //     this.socket.emit(`servervelixs`, {
-                    //         code_message: "reconnect",
-                    //         session_id: session,
-                    //         message: "Connection TimedOut, Reconnecting...",
-                    //     });
-                    //     this.socket.emit('logger', {
-                    //         session_id: session,
-                    //         type: 'debug',
-                    //         message: `[SESSION] CONNECTION TIMED OUT, RECONNECTING...`
-                    //     });
-                    //     velixs.ev.removeAllListeners("connection.update");
-                    //     velixs.end();
-                    //     this.createSession(session);
-                    // } else {
-                    //     logger("debug", "[SESSION] DISCONNECTED, RECONNECTING : " + `${session}`, true);
-                    //     this.socket.emit(`servervelixs`, {
-                    //         code_message: "endsession",
-                    //         session_id: session,
-                    //         message: "Disconnected, Unknown Reason.",
-                    //     });
-                    //     this.socket.emit('logger', {
-                    //         session_id: session,
-                    //         type: 'debug',
-                    //         message: `[SESSION] DISCONNECTED, UNKNOWN REASON.`
-                    //     });
-                    //     velixs.ev.removeAllListeners("connection.update");
-                    //     velixs.end();
-                    //     if (unknown_attempt >= 10) {
-                    //         unknown_attempt = 0;
-                    //         this.deleteSession(session, false);
-                    //     } else {
-                    //         unknown_attempt++;
-                    //         return this.createSession(session);
-                    //     }
-                    // }
                 } else if (connection == "open") {
                     await this.updateStatus(session, 'CONNECTED', velixs.authState.creds.me.id.split(":")[0]);
                     logger("debug", "[SESSION] CONNECTED : " + `${session}`);
